@@ -9,6 +9,9 @@ train_file.close()
 test_file = open("/home/ukharwa/MNIST/data/test.csv", "r")
 test_list = test_file.readlines()
 test_file.close()
+pred_file = open("/home/ukharwa/MNIST/pred.csv", "r")
+pred_list = pred_file.readlines()
+pred_file.close()
 
 weights_file = open("/home/ukharwa/MNIST/weights.txt", "r")
 weight_lines = weights_file.readlines()
@@ -27,5 +30,5 @@ starting_weights = [w1, w2, w3, acc]
 
 
 dnn = DNN(starting_weights)
-dnn.train(train_list, test_list, 10, 0.5)
 #print(dnn.compute_accuracy(test_list) * 100)
+dnn.predict(pred_list)
