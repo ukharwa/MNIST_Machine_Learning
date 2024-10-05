@@ -34,8 +34,8 @@ body{
 
 #input-canvas {
     margin: auto;
-    grid-template-columns: repeat(56, 1fr);
-    grid-template-rows: repeat(56, 1fr);
+    grid-template-columns: repeat(84, 1fr);
+    grid-template-rows: repeat(84, 1fr);
 }
 
 #output-canvas {

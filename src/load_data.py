@@ -1,3 +1,4 @@
+import os;
 
 def convert(imgs, labels, outfile, n):  #converts from ubyte to csv
     imgf = open(imgs, "rb")
@@ -22,11 +23,11 @@ def convert(imgs, labels, outfile, n):  #converts from ubyte to csv
     csvf.close()
 
 
-mnist_train_x = "home/ukharwa/MNIST/data/train-images-idx3-ubyte"
-mnist_train_y = "/home/ukharwa/MNIST/data/train-labels-idx1-ubyte"
+mnist_train_x = os.getcwd() + "/data/train-images-idx3-ubyte"
+mnist_train_y = os.getcwd() + "/data/train-labels-idx1-ubyte"
 
-mnist_test_x = "/home/ukharwa/MNIST/data/t10k-images-idx3-ubyte"
-mnist_test_y = "/home/ukharwa/MNIST/data/t10k-labels-idx1-ubyte"
+mnist_test_x = os.getcwd() + "/data/t10k-images-idx3-ubyte"
+mnist_test_y = os.getcwd() + "/data/t10k-labels-idx1-ubyte"
 
-convert(mnist_train_x, mnist_train_y, "/home/ukharwa/MNIST/data/train.csv", 60000)
-convert(mnist_test_x, mnist_test_y, "/home/ukharwa/MNIST/data/test.csv", 10000)
+convert(mnist_train_x, mnist_train_y, os.getcwd() + "/data/train.csv", 60000)
+convert(mnist_test_x, mnist_test_y, os.getcwd() + "/data/test.csv", 10000)

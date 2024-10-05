@@ -5,7 +5,7 @@ const submit = document.getElementById("submit");
 let arrPixels;
 let isDrawing = false;
 
-const arrGrid = new Array(3136).fill(0);
+const arrGrid = new Array(7056).fill(0);
 
 
 const renderGrid = (array) => {
@@ -29,46 +29,61 @@ const renderGrid = (array) => {
 }
 renderGrid(arrGrid);
 
-const updatePixel = (event) => {
-    if (!isDrawing) return;
+const antiAlias = (pixelIndex ,rowLength) => {
+    if (pixelIndex + rowLength - 1 < arrGrid.length){
+        arrGrid[pixelIndex + rowLength - 1] += 32;
+    }
+    if (pixelIndex + rowLength < arrGrid.length){
+        arrGrid[pixelIndex + rowLength] += 64;
+    }
+    if (pixelIndex + rowLength + 1 < arrGrid.length){
+        arrGrid[pixelIndex + rowLength + 1] += 32;
+    }
+    if (pixelIndex - rowLength - 1 < arrGrid.length){
+        arrGrid[pixelIndex - rowLength - 1] += 32;
+    }
+    if (pixelIndex - rowLength >= 0){
+        arrGrid[pixelIndex - rowLength] += 64;
+    }
+    if (pixelIndex - rowLength + 1 >= 0){
+        arrGrid[pixelIndex - rowLength + 1] += 32;
+    }
 
-    const pixel = event.target;
-    const pixelIndex = arrPixels.indexOf(pixel);
+    const row = Math.floor(pixelIndex / rowLength);
+    if ((pixelIndex + 1) < arrGrid.length && Math.floor((pixelIndex + 1) / rowLength) === row) {
+        arrGrid[pixelIndex + 1] += 64;
+    }
+    if ((pixelIndex - 1) >= 0 && Math.floor((pixelIndex - 1) / rowLength) === row) {
+        arrGrid[pixelIndex - 1] += 64;
+    }
 
-    arrGrid[pixelIndex] = 255;
-    if (pixelIndex + 57 < arrGrid.length){
-        arrGrid[pixelIndex + 57] += 20;
-    }
-    if (pixelIndex + 56 < arrGrid.length){
-        arrGrid[pixelIndex + 56] += 50;
-    }
-    if (pixelIndex - 57 < arrGrid.length){
-        arrGrid[pixelIndex - 57] += 20;
-    }
-    if (pixelIndex - 56 >= 0){
-        arrGrid[pixelIndex - 56] += 50;
-    }
-    const row = Math.floor(pixelIndex / 56);
-    if ((pixelIndex + 1) < arrGrid.length && Math.floor((pixelIndex + 1) / 56) === row) {
-        arrGrid[pixelIndex + 1] += 50;
-    }
-    if ((pixelIndex + 2) < arrGrid.length && Math.floor((pixelIndex + 2) / 56) === row) {
-        arrGrid[pixelIndex + 2] += 20;
-    }
-    if ((pixelIndex - 1) >= 0 && Math.floor((pixelIndex - 1) / 56) === row) {
-        arrGrid[pixelIndex - 1] += 50;
-    }
-    if ((pixelIndex - 2) >= 0 && Math.floor((pixelIndex - 2) / 56) === row) {
-        arrGrid[pixelIndex - 2] += 20;
-    }
-    
-    
     for (let i = 0; i < arrGrid.length; i++){
         if (arrGrid[i] > 255){
             arrGrid[i] = 255;
         }
     }
+}
 
+const updatePixelDrag = (event) => {
+    if (!isDrawing) return;
+
+    const pixel = event.target;
+    const pixelIndex = arrPixels.indexOf(pixel);
+    const rowLength = Math.sqrt(arrGrid.length);
+
+    arrGrid[pixelIndex] = 255;
+    antiAlias(pixelIndex, rowLength);
+    renderGrid(arrGrid);
+};
+
+const updatePixel = (event) => {
+
+    const pixel = event.target;
+    const pixelIndex = arrPixels.indexOf(pixel);
+    const rowLength = Math.sqrt(arrGrid.length);
+
+    arrGrid[pixelIndex] = 255;
+    antiAlias(pixelIndex, rowLength);
     renderGrid(arrGrid);
 };
 
@@ -99,8 +114,8 @@ function reshape1Dto2D(arr) {
 }
 
 
-function downsampleGrid(highResGrid, highResDim, lowResDim) {
-    const blockSize = highResDim / lowResDim;   // 560 / 28 = 20
+function downsampleGrid(highResGrid, lowResDim) {
+    const blockSize = highResGrid[0].length / lowResDim;   // 560 / 28 = 20
 
     const lowResGrid = new Array(lowResDim).fill(0).map(() => new Array(lowResDim).fill(0));
 
@@ -145,16 +160,17 @@ const renderOutGrid = (array) => {
 }
 
 const output = () => {
-    const outputGrid = downsampleGrid(reshape1Dto2D(arrGrid), 56, 28).flat();
+    const outputGrid = downsampleGrid(reshape1Dto2D(arrGrid), 28).flat();
     renderOutGrid(outputGrid);
     console.log(outputGrid.join(","))
 }
 
 const initializeListeners = () => {
     for (let i of arrPixels) {
-        i.addEventListener("mouseover", updatePixel);
-        i.addEventListener("mouseenter", updatePixel);
-        i.addEventListener("mouseout", updatePixel);
+        i.addEventListener("mouseover", updatePixelDrag);
+        i.addEventListener("mouseenter", updatePixelDrag);
+        i.addEventListener("mouseout", updatePixelDrag);
+        i.addEventListener("click", updatePixel);
     }
     canvas.addEventListener("mousedown", handleMouseDown);
     canvas.addEventListener("mouseup", handleMouseUp);
