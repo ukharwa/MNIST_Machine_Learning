@@ -9,11 +9,45 @@ body{
     display: flex;
     flex-direction: row;
     background-color: #c9c9c9;
+    height: 100vh;
+    width: 100vw;
 }
 
 .left-container{
+    height: 100%;
     width: 50%;
     height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.prompt {
+    width: 50%;
+    height: 5%;
+    margin: auto;
+    text-align: center;
+    font-size: 2rem;
+}
+
+#input-canvas {
+    margin: auto;
+}
+
+.button-container {
+    margin: auto;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.button {
+    height: 50px;
+    width: 100px;
+    margin: 10px;
 }
 
 .right-container {
@@ -22,7 +56,7 @@ body{
     align-items: center;
     justify-content: space-evenly;
     width: 50%;
-    height: auto;
+    height: 100%;
 }
 
 .canvas {
@@ -32,19 +66,9 @@ body{
     justify-content: center;
 }
 
-#input-canvas {
-    margin: auto;
-}
-
 #output-canvas {
     grid-template-columns: repeat(28, 1fr);
     grid-template-rows: repeat(28, 1fr);
     background-color: black;
-}
-
-
-.button {
-    height: 50px;
-    width: 100px;
-    margin: 10px;
+    margin: auto;
 }

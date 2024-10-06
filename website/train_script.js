@@ -1,8 +1,8 @@
 const inpCanvas = document.getElementById("input-canvas");
 const outCanvas = document.getElementById("output-canvas");
-const reset = document.getElementById("reset");
-const submit = document.getElementById("submit");
+const prompt = document.getElementById("prompt");
 let isDrawing = false;
+let randomNum;
 
 class Canvas{
     constructor(dim, cssGrid){
@@ -160,22 +160,31 @@ const renderOutGrid = (array) => {
     }
 }
 
-const canvas = new Canvas(56, inpCanvas);
-
+const canvas = new Canvas(84, inpCanvas);
 const output = () => {
     const outputGrid = canvas.downsampleGrid(28).flat();
     renderOutGrid(outputGrid);
-    console.log(outputGrid.join(","))
+    console.log(`${randomNum},${outputGrid.join(",")}`);
+    randomGen();
+    canvas.resetGrid()
 }
 
 const initializeListeners = () => {
     canvas.initialize();
     inpCanvas.addEventListener("mousedown", () => {isDrawing = true});
     inpCanvas.addEventListener("mouseup", () => {isDrawing = false});
-    
-    submit.addEventListener("click", output)
-    reset.addEventListener("click", canvas.resetGrid);
 
+    const reset = document.getElementById("reset");
+    const submit = document.getElementById("submit");
+    submit.addEventListener("click", output);
+    reset.addEventListener("click", canvas.resetGrid);
 };
 
+const randomGen = () => {
+    randomNum = Math.floor(Math.random() * 10);
+    prompt.textContent = `Draw this number: ${randomNum}`;
+}
+
+
 initializeListeners();
+randomGen();
