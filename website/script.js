@@ -2,7 +2,6 @@ const inpCanvas = document.getElementById("input-canvas");
 const outCanvas = document.getElementById("output-canvas");
 const reset = document.getElementById("reset");
 const submit = document.getElementById("submit");
-let arrPixels;
 let isDrawing = false;
 
 class Canvas{
