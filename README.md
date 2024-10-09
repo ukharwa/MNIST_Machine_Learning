@@ -17,7 +17,6 @@ The repository contains two main sections:
   <li>Classifiers</li>
   <li>Website</li>
 </ul>
-<br>
 <h2>Classifiers</h2>
 The models section is where the actual machine learning algorithms are implemented.
 There are currently two classifiers used to predict the drawings:
@@ -25,7 +24,6 @@ There are currently two classifiers used to predict the drawings:
   <li>Dense Neural Network</li>
   <li>k-Nearest Neighbors</li>
 </ul>
-<br>
 <h3>Dense Neural Network</h3>
 The first model uses a dense neural network with 4 layers.
 The input layer is 784 nodes (28x28 pixel input drawing) and 10 output nodes (digits 0-9)
