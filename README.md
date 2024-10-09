@@ -1,4 +1,4 @@
-#ABOUT PROJECT
+<h1>ABOUT PROJECT</h1>
 This project is intended to develop an understanding of different machine learning algorithms and techniques.
 I am implementing the algorithms and building the models from scratch without
 the use of machine learning libraries (Tensorflow, Keras, SciKit, etc.)
