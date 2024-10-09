@@ -40,9 +40,10 @@ can be set when constructing the class.
 <br>
 <h2>Website</h2>
 The website is very basic at the moment and contains two pages:
->one to draw new digits and format the output to be used for predictions
->one used to train the model by labelling drawn digits
-
+<ul>
+  <li>one to draw new digits and format the output to be used for predictions</li>
+  <li>>one used to train the model by labelling drawn digits</li>
+</ul>
 It is not hosted anyhwhere and just exists as html, css, and js documents.
 There are plans to work on it in the future to be able to send data directly to the models
 for prediction and training.
