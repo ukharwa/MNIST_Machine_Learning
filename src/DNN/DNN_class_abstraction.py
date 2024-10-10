@@ -14,14 +14,13 @@ class DNN:
             
 
     def sigmoid(self, x, derivative=False):
-    # Clip the input values to prevent overflow in exp
-        x = np.clip(x, -500, 500)  # This caps the values of x between -500 and 500
-    
+        x = np.clip(x, -500, 500)
+
         if derivative:
-            sig = 1 / (1 + np.exp(-x))  # Sigmoid function
-            return sig * (1 - sig)  # Derivative of sigmoid: sig * (1 - sig)
+            sig = 1 / (1 + np.exp(-x))
+            return sig * (1 - sig)
     
-        return 1 / (1 + np.exp(-x))  # Sigmoid function
+        return 1 / (1 + np.exp(-x))
 
     def softmax(self, x):
         exps = np.exp(x-x.max())
