@@ -3,14 +3,35 @@ import time
 
 class DNN:
     def __init__(self, size, output_file="std_output.txt"):
-        self.accuracy = 0
         self.output_file = output_file
         self.num_layers = len(size)
-        self.params = {}
 
-        for i in range(1, len(size)):
-            self.params["w" + str(i)] = np.random.randn(size[i], size[i - 1]) * np.sqrt(1./size[i])
-            self.params["b" + str(i)] = np.zeros(size[i])
+        try:
+            weights_file = open(self.output_file, "r")
+            weight_lines = weights_file.readlines()
+            weights_file.close()
+
+            arr_params = []
+            for line in weight_lines:
+                arr_params.append(list(map(float, line.strip().split(","))))
+
+            self.accuracy = arr_params[-1][0]
+
+            self.params = {}
+             
+            for i in range(1, self.num_layers):
+                self.params["w" + str(i)] = np.asarray(arr_params[i-1]).reshape(size[i], size[i-1])
+                self.params["b" + str(i)] = np.asarray(arr_params[i+ self.num_layers - 2])
+
+        except Exception as error:
+            print(error)
+            print("No starting weights found. Generating random weights")
+            self.accuracy = 0
+            self.params = {}
+
+            for i in range(1, len(size)):
+                self.params["w" + str(i)] = np.random.randn(size[i], size[i - 1]) * np.sqrt(1./size[i])
+                self.params["b" + str(i)] = np.zeros(size[i])
             
 
     def sigmoid(self, x, derivative=False):
@@ -72,8 +93,7 @@ class DNN:
         for j in range(epochs):
             start_time = time.time()
             for i in range(len(x_train)):
-                values = x_train[i].split(",")
-                inputs = (np.asarray(values, dtype=float) / 255.0 * 0.99) + 0.01
+                inputs = (np.asarray(x_train[i], dtype=float) / 255.0 * 0.99) + 0.01
                 targets = np.zeros(10) + 0.01
                 targets[int(y_train[i])] = 0.99
                 output = self.forward_pass(inputs)
@@ -100,8 +120,7 @@ class DNN:
         predictions = []
 
         for i in range(len(x_test)):
-            values = x_test[i].split(",")
-            inputs = (np.asarray(values, dtype=float) / 255.0 * 0.99) + 0.01
+            inputs = (np.asarray(x_test[i], dtype=float) / 255.0 * 0.99) + 0.01
             targets = np.zeros(10) + 0.01
             targets[int(y_test[i])] = 0.99
             output = self.forward_pass(inputs)

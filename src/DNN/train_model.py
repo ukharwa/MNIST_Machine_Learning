@@ -21,6 +21,12 @@ test_file.close()
 #values = x_train[0].split(",")
 #inputs = (np.asarray(values, dtype=float) / 255.0 * 0.99) + 0.01
 
-dnn = DNN([784, 128, 64, 10], "weights3.txt")
-#print(dnn.forward_pass(inputs))
-dnn.train(x_train, y_train, x_test, y_test, 10, 0.05)
+def line_split(line):
+    return line.strip().split(",")
+
+
+x_test = list(map(line_split, x_test))
+x_train = list(map(line_split, x_train))
+
+dnn = DNN([784, 500, 200, 100, 10], "weights4.txt")
+dnn.train(x_train, y_train, x_test, y_test, 50, 0.5)
