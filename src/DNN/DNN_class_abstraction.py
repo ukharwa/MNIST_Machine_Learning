@@ -130,10 +130,9 @@ class DNN:
         return np.mean(predictions)
 
     def predict(self, prediction_data):
-        values = prediction_data.split(",")
-        inputs = (np.asarray(values, dtype=float) / 255.0 * 0.99) + 0.01
-        output = self.forward_pass(inputs)
-        pred = np.argmax(output)
-        predictions.append(pred)
-        print(str(pred))
+        for i in prediction_data:
+            inputs = (np.asarray(i, dtype=float) / 255.0 * 0.99) + 0.01
+            output = self.forward_pass(inputs)
+            pred = np.argmax(output)
+            print(str(pred))
 
