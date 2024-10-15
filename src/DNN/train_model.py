@@ -1,4 +1,3 @@
-
 from DNN_class_abstraction import DNN
 import os
 import numpy as np
@@ -18,16 +17,11 @@ test_file = open(os.getcwd() + "/data/Y_test.csv", "r")
 y_test = test_file.readlines()
 test_file.close()
 
-pred_file = open("pred.csv", "r")
-pred_list = pred_file.readlines()
-pred_file.close()
-
 def line_split(line):
     return line.strip().split(",")
 
 x_test = list(map(line_split, x_test))
 x_train = list(map(line_split, x_train))
-pred_list = list(map(line_split, pred_list))
 
 dnn = DNN([784, 500, 200, 100, 10], "weights4.txt")
-dnn.predict(pred_list)
+dnn.train(x_train, y_train, x_test, y_test, 10, 0.5)

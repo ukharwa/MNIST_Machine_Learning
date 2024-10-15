@@ -33,7 +33,6 @@ class DNN:
                 self.params["w" + str(i)] = np.random.randn(size[i], size[i - 1]) * np.sqrt(1./size[i])
                 self.params["b" + str(i)] = np.zeros(size[i])
             
-
     def sigmoid(self, x, derivative=False):
         x = np.clip(x, -500, 500)
 
